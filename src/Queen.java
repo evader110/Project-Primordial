@@ -5,6 +5,7 @@ import java.awt.Graphics;
 public class Queen extends Actor
 {
 	private int foodCount = 5;
+	private int queenVisionRange = 750;
 
 	public Queen(double xPos, double yPos, Faction f)
 	{
@@ -19,6 +20,14 @@ public class Queen extends Actor
 		spawnDrones();
 	}
 
+	public void control()
+	{
+		if(TopMenu.hiveMind)
+		{
+			
+		}
+	}
+	
 	public void draw(Graphics g)
 	{
 		g.setColor(faction.getColor());
@@ -27,12 +36,15 @@ public class Queen extends Actor
 
 		g.setColor(Color.BLACK);
 		g.drawRect((int)xPosition - (width / 2), (int)yPosition - (height / 2), width, height);
+		g.setColor(faction.getColor());
+		g.drawOval((int)this.xPosition - 375, (int)this.yPosition - 375, queenVisionRange, queenVisionRange);
 	}
 
 	@Override
 	public void act()
 	{
 		spawnDrones();
+		control();
 	}
 
 	public void spawnDrones()

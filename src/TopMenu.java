@@ -31,6 +31,8 @@ public class TopMenu extends JMenuBar
 	static JMenuItem foodButton;
 	static JMenuItem resetButton;
 	
+	static boolean hiveMind;
+	
 	
 	public TopMenu()
 	{
@@ -112,7 +114,7 @@ public class TopMenu extends JMenuBar
 			{
 				// TODO Wire this
 				//GamePanel.toggleHiveMind();
-				
+				hiveMind = true;
 				GamePanel.clearRegions();
 			}
 		});

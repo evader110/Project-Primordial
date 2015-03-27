@@ -129,6 +129,7 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 		Faction blueFaction = findFaction("Blue", factions);
 		Faction greenFaction = findFaction("Green", factions);
 		
+		/*
 		Region reg = new Region();
 		reg.setBounds(new Rectangle(0, 50, 200, 50));
 		
@@ -145,6 +146,7 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 		
 		addRegion(reg);
 		addRegion(reg2);
+		*/
 	}
 
 	public void actionPerformed(ActionEvent e) //This method is run every time the timer fires
