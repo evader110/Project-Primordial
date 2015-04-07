@@ -27,6 +27,7 @@ public class TopMenu extends JMenuBar
 	static JRadioButton redButton;
 	static JRadioButton blueButton;
 	
+	static JMenuItem warriorButton;
 	static JMenuItem droneButton;
 	static JMenuItem foodButton;
 	static JMenuItem resetButton;
@@ -53,6 +54,15 @@ public class TopMenu extends JMenuBar
 		{
 			public void actionPerformed(ActionEvent e)
 			{
+			}
+		});		
+		
+		warriorButton = new JMenuItem("Warrior");
+		warriorButton.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				
 			}
 		});		
 		

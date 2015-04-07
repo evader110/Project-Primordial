@@ -43,6 +43,7 @@ public class Queen extends Actor
 	@Override
 	public void act()
 	{
+		spawnWarriors();
 		spawnDrones();
 		control();
 	}
@@ -55,7 +56,7 @@ public class Queen extends Actor
 
 			GamePanel.addEntity(newDrone);
 
-			foodCount -= 2;
+			foodCount -= 1;
 		}
 		else
 		{
@@ -66,6 +67,19 @@ public class Queen extends Actor
 				GamePanel.addEntity(newDrone);
 			}
 		}
+	}
+	
+	public void spawnWarriors()
+	{
+		if(foodCount > 2)
+		{
+			Warrior newWarrior = new Warrior(xPosition, yPosition, faction, 10);
+
+			GamePanel.addEntity(newWarrior);
+
+			foodCount -= 2;
+		}
+		
 	}
 	
 	@Override

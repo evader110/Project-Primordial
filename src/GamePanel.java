@@ -196,6 +196,10 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 			addEntity(new Food(xPos, yPos));
 		}
 	}
+	
+	
+	
+	
 
 	public void checkRegions() //Make sure no actors are going through regions they shouldn't be
 	{
