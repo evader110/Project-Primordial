@@ -28,6 +28,7 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 	private static boolean foodSpawn;
 	private static boolean isPaused;
 	private static boolean greenFaction;
+	private static boolean toggle = true;
 
 	private static Random random = new Random();
 
@@ -180,7 +181,9 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 	public void spawnFood()
 	{
 		int bufferZone = 25;
-
+		
+		
+		if (toggle){
 		if(random.nextBoolean())
 		{
 			int xPos = random.nextInt(panelWidth - 2 * bufferZone) + bufferZone;
@@ -194,6 +197,9 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 					return;
 			}	
 			addEntity(new Food(xPos, yPos));
+			toggle = false;
+		}
+		toggle = true;
 		}
 	}
 	

@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class Drone extends Actor
 {	
-	private final int SPEED = 3;
+	private final int SPEED = 1;
 	private final double MAX_HEALTH = 160;
 	private final double DAMAGE = 5;
 	private final double AGGRO_RANGE = 250;

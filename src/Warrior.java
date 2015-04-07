@@ -46,14 +46,14 @@ public class Warrior extends Actor
 		height = 12;
 		
 		battalionCount = size;
-		health = MAX_HEALTH * battalionCount;
+		health = MAX_HEALTH * battalionCount + 1;
 
 		faction.addWarrior(this);
 	}
 
 	public void draw(Graphics g)
 	{
-		Color outlineColor;
+		Color outlineColor = faction.getColor();
 		
 		g.setColor(faction.getColor());
 		battalionCount = (int)health / (int)MAX_HEALTH;
@@ -64,16 +64,17 @@ public class Warrior extends Actor
 		{
 			g.setColor(Color.black);
 		}
-
+		g.setColor(Color.black);
 		g.fillRect((int)xPosition - (width / 2), (int)yPosition - (height / 2), width, height);
 
 		if(isFighting || isGrabbing)
 		{
-			outlineColor = Color.white;
+			//outlineColor = Color.white;
+			drawFood(g);
 		}
 		else
 		{
-			outlineColor = Color.ORANGE;
+			//outlineColor = Color.ORANGE;
 		}
 
 		g.setColor(outlineColor);
@@ -162,8 +163,11 @@ public class Warrior extends Actor
 		
 		else
 		{
-			
-			if(isNearEnemy())
+			if(isNearEnemyWarrior())
+			{
+				fightWarrior(enemyWarrior);
+			}
+			else if(isNearEnemy())
 			{
 				fight(enemy);
 			}
@@ -279,6 +283,7 @@ public class Warrior extends Actor
 			double damageModifier = random.nextDouble() * DAMAGE;
 
 			enemy.takeDamage(DAMAGE + damageModifier);
+			setVelocity(0, 0);
 		}
 	}
 	
@@ -292,6 +297,7 @@ public class Warrior extends Actor
 			double damageModifier = random.nextDouble() * DAMAGE;
 
 			enemyWarrior.takeDamage(DAMAGE + damageModifier);
+			setVelocity(0, 0);
 		}
 	}
 	
@@ -354,7 +360,11 @@ public class Warrior extends Actor
 
 	public void move(double vX, double vY, double multiplier)
 	{
-		setVelocity(vX * multiplier, vY * multiplier);
+		
+		
+		
+			setVelocity(vX * multiplier, vY * multiplier);
+		
 	}
 
 	public void bounceOffEdges()
