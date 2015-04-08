@@ -1,6 +1,7 @@
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.util.ArrayList;
 import java.util.Random;
@@ -12,9 +13,13 @@ public class Warrior extends Actor
 	private final double MAX_HEALTH = 300;
 	private final double DAMAGE = 5;
 	private final double AGGRO_RANGE = 600;
+	private final double TURN_SPEED = (2 * Math.PI) / 50;
 	
 	private final double SPEED_REDUCTION = 0.80;
 
+	private double angle = 0;
+	private double targetAngle = 0;
+	
 	private int turnCounter;
 	private int wanderingTimeLeft;
 	
@@ -42,8 +47,8 @@ public class Warrior extends Actor
 
 		faction = f;
 
-		width = 12;
-		height = 12;
+		width = 14;
+		height = 14;
 		
 		battalionCount = size;
 		health = MAX_HEALTH * battalionCount;
@@ -53,19 +58,26 @@ public class Warrior extends Actor
 
 	public void draw(Graphics g)
 	{
+		Graphics2D g2d = (Graphics2D)g;
+		
+		g2d.rotate(angle, xPosition, yPosition);
+		
 		Color outlineColor;
 		
-		g.setColor(faction.getColor());
+		g2d.setColor(faction.getColor());
 		battalionCount = (int)health / (int)MAX_HEALTH;
 		battalion = Integer.toString(battalionCount);
 	
-
+		
+		int[] xVals = {(int)(xPosition - width / 2), (int)(xPosition + width / 2 + 4), (int)(xPosition - width / 2)};
+		int[] yVals = {(int)(yPosition + height / 2), (int)(yPosition), (int)(yPosition - height / 2)};
+		
 		if(isDead)
 		{
-			g.setColor(Color.black);
+			g2d.setColor(Color.black);
 		}
-
-		g.fillRect((int)xPosition - (width / 2), (int)yPosition - (height / 2), width, height);
+		
+		g2d.fillPolygon(xVals, yVals, 3);
 
 		if(isFighting || isGrabbing)
 		{
@@ -76,15 +88,19 @@ public class Warrior extends Actor
 			outlineColor = Color.ORANGE;
 		}
 
-		g.setColor(outlineColor);
-		g.drawRect((int)xPosition - (width / 2), (int)yPosition - (height / 2), width, height);
+		g2d.setColor(outlineColor);
+		g2d.drawPolygon(xVals, yVals, 3);
 
 		if(hasFood)
 		{
-			drawFood(g);
+			drawFood(g2d);
 		}
-		g.setColor(Color.BLACK);
-		g.drawString(battalion, (int)xPosition + 6, (int)yPosition);
+		g2d.setColor(Color.BLACK);
+		
+		g2d.rotate(-angle, xPosition, yPosition);
+		
+		
+		g2d.drawString(battalion, (int)xPosition + 6, (int)yPosition);
 	}
 
 	public void drawFood(Graphics g)
@@ -118,6 +134,22 @@ public class Warrior extends Actor
 			{
 				destroy();
 			}
+		}
+		
+		updateAngle();
+	}
+	
+	public void updateAngle()
+	{
+		targetAngle = Math.atan2(yVelocity, xVelocity);
+		
+		if(angle < targetAngle)
+		{
+			angle += TURN_SPEED;
+		}
+		else if(angle > targetAngle)
+		{
+			angle -= TURN_SPEED;
 		}
 	}
 
