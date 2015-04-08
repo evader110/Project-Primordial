@@ -2,21 +2,24 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Polygon;
-import java.util.ArrayList;
 import java.util.Random;
 
 
-public class Drone extends Actor
+public class Assassin extends Actor
 {	
-	private final int SPEED = 1;
-	private final double MAX_HEALTH = 160;
-	private final double DAMAGE = 5;
-	private final double AGGRO_RANGE = 250;
-	private final double FOOD_RANGE = 250;
+	private final int SPEED = 3;
+	private final double MAX_HEALTH = 300;
+	private final double DAMAGE = 10000;
+	private final double AGGRO_RANGE = 1200;
+	
 	private final double SPEED_REDUCTION = 0.80;
 
 	private int turnCounter;
 	private int wanderingTimeLeft;
+	
+	private int battalionCount;
+	
+	private static String battalion;
 
 	private double health = MAX_HEALTH;
 	private boolean hasFood;
@@ -27,10 +30,11 @@ public class Drone extends Actor
 	private Random random = new Random();
 
 	private Drone enemy;
+	private Warrior enemyWarrior;
 
 	private Queen queen;
 
-	public Drone(double x, double y, Faction f)
+	public Assassin(double x, double y, Faction f)
 	{
 		xPosition = x;
 		yPosition = y;
@@ -39,30 +43,37 @@ public class Drone extends Actor
 
 		width = 12;
 		height = 12;
+		
+		
+		health = MAX_HEALTH * battalionCount;
 
-		faction.addDrone(this);
+		faction.addAssassin(this);
 	}
 
 	public void draw(Graphics g)
 	{
-		Color outlineColor;
-
+		Color outlineColor = faction.getColor();
+		
 		g.setColor(faction.getColor());
+		battalionCount = (int)health / (int)MAX_HEALTH + 1;
+		battalion = Integer.toString(battalionCount);
+	
 
 		if(isDead)
 		{
 			g.setColor(Color.black);
 		}
-
+		g.setColor(Color.white);
 		g.fillRect((int)xPosition - (width / 2), (int)yPosition - (height / 2), width, height);
 
 		if(isFighting || isGrabbing)
 		{
-			outlineColor = Color.white;
+			//outlineColor = Color.white;
+			drawFood(g);
 		}
 		else
 		{
-			outlineColor = Color.black;
+			//outlineColor = Color.ORANGE;
 		}
 
 		g.setColor(outlineColor);
@@ -72,6 +83,8 @@ public class Drone extends Actor
 		{
 			drawFood(g);
 		}
+		
+		
 	}
 
 	public void drawFood(Graphics g)
@@ -146,15 +159,12 @@ public class Drone extends Actor
 			
 			wanderingTimeLeft--;
 		}
-		else if(hasFood && queen != null)
-		{
-			bringFoodToQueen();
-		}
+		
 		else
 		{
-			if(isNearFood())
+			if(isNearEnemyWarrior())
 			{
-				goTowardsFood();
+				fightWarrior(enemyWarrior);
 			}
 			
 			else
@@ -185,22 +195,33 @@ public class Drone extends Actor
 		return true;
 	}
 	
-	public void bringFoodToQueen()
+	public boolean isNearEnemyWarrior()
 	{
-		if(isTouching(queen))
+		boolean foundEnemy = false;
+		for(Entity e : GamePanel.getEntities())
 		{
-			queen.giveFood();
-			hasFood = false;
-		}
-		else
-		{
-			double angleToTarget = calcAngleTo(queen);
+		 if(e instanceof Warrior)
+			{
+				Warrior d = (Warrior) e;
 
-			move(SPEED * Math.cos(angleToTarget), -SPEED * Math.sin(angleToTarget), SPEED_REDUCTION);
-
-			//xVelocity = (SPEED * Math.cos(angleToTarget)) * SPEED_REDUCTION;
-			//yVelocity = (-SPEED * Math.sin(angleToTarget)) * SPEED_REDUCTION;
+				if(getDistanceFrom(d) <= AGGRO_RANGE && (!d.getFaction().equals(faction)) && (!d.isDead()))
+				{
+					if(!foundEnemy)
+					{
+						foundEnemy = true;
+						enemyWarrior = d;
+					}
+					else
+					{
+						if(getDistanceFrom(d) < getDistanceFrom(enemyWarrior))
+						{
+							enemyWarrior = d;
+						}
+					}
+				}
+			}
 		}
+		 return foundEnemy;
 	}
 
 	public boolean isNearEnemy()
@@ -229,24 +250,12 @@ public class Drone extends Actor
 					}
 				}
 			}
+			
 		}
 		return foundEnemy;
 	}
 
-	public boolean isNearFood()
-	{
-		for(Entity e : GamePanel.getEntities())
-		{
-			if(e instanceof Food)
-			{
-				if(getDistanceFrom(e) <= FOOD_RANGE)
-				{
-					return true;
-				}
-			}
-		}
-		return false;
-	}
+	
 
 	public void wander(int time)
 	{
@@ -256,59 +265,38 @@ public class Drone extends Actor
 		wanderingTimeLeft = time;
 	}
 
+	public void fight(Drone enemy)
+	{
+		isFighting = true;
+		moveTowards(enemy);
+
+		if(getDistanceFrom(enemy) <= 6)
+		{
+			double damageModifier = random.nextDouble() * DAMAGE;
+
+			enemy.takeDamage(DAMAGE + damageModifier);
+			setVelocity(0, 0);
+		}
+	}
+	
+	public void fightWarrior(Warrior enemyWarrior)
+	{
+		isFighting = true;
+		moveTowards(enemyWarrior);
+
+		if(getDistanceFrom(enemyWarrior) <= 6)
+		{
+			double damageModifier = random.nextDouble() * DAMAGE;
+
+			enemyWarrior.takeDamage(DAMAGE + damageModifier);
+			setVelocity(0, 0);
+			isDead = true;
+		}
+			
+	}
 	
 
-	public void goTowardsFood()
-	{
-		isGrabbing = true;
-		Entity target = null;
-
-		target = getClosestFood();
-
-		if(target != null)
-		{
-			if(isTouching(target))
-			{
-				Food foodTarget = (Food)target;
-				foodTarget.reduce();
-				hasFood = true;
-			}
-			else
-			{
-				moveTowards(target);
-			}
-		}
-	}
-
-	public Entity getClosestFood()
-	{
-		Entity target = null;
-
-		ArrayList<Entity> foodSources = new ArrayList<Entity>();
-
-		for(Entity e : GamePanel.getEntities())
-		{
-			if(e instanceof Food)
-			{
-				foodSources.add(e);
-			}
-		}
-
-		if(foodSources.size() != 0)
-		{
-			target = foodSources.get(0);
-
-			for(Entity e : foodSources)
-			{
-				if(this.getDistanceFrom(e) < this.getDistanceFrom(target))
-				{
-					target = e;
-				}
-			}
-		}
-
-		return target;
-	}
+	
 
 	public void moveTowards(Entity target)
 	{
@@ -366,7 +354,11 @@ public class Drone extends Actor
 
 	public void move(double vX, double vY, double multiplier)
 	{
-		setVelocity(vX * multiplier, vY * multiplier);
+		
+		
+		
+			setVelocity(vX * multiplier, vY * multiplier);
+		
 	}
 
 	public void bounceOffEdges()
@@ -415,7 +407,7 @@ public class Drone extends Actor
 	public void destroy()
 	{
 		GamePanel.removeEntity(this);
-		faction.removeDrone(this);
+		faction.removeAssassin(this);
 	}
 
 	public boolean isDead()

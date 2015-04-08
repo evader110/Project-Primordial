@@ -3,7 +3,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
-import java.util.ArrayList;
 import java.util.Random;
 
 
@@ -58,34 +57,50 @@ public class Warrior extends Actor
 
 	public void draw(Graphics g)
 	{
+<<<<<<< HEAD
 		Graphics2D g2d = (Graphics2D)g;
 		
 		g2d.rotate(angle, xPosition, yPosition);
 		
 		Color outlineColor;
+=======
+		Color outlineColor = faction.getColor();
+>>>>>>> origin/master
 		
 		g2d.setColor(faction.getColor());
 		battalionCount = (int)health / (int)MAX_HEALTH;
+		
+		
 		battalion = Integer.toString(battalionCount);
+<<<<<<< HEAD
 	
 		
 		int[] xVals = {(int)(xPosition - width / 2), (int)(xPosition + width / 2 + 4), (int)(xPosition - width / 2)};
 		int[] yVals = {(int)(yPosition + height / 2), (int)(yPosition), (int)(yPosition - height / 2)};
 		
+=======
+		
+
+>>>>>>> origin/master
 		if(isDead)
 		{
 			g2d.setColor(Color.black);
 		}
+<<<<<<< HEAD
 		
 		g2d.fillPolygon(xVals, yVals, 3);
+=======
+		g.setColor(Color.black);
+		g.fillRect((int)xPosition - (width / 2), (int)yPosition - (height / 2), width, height);
+>>>>>>> origin/master
 
 		if(isFighting || isGrabbing)
 		{
-			outlineColor = Color.white;
+						drawFood(g);
 		}
 		else
 		{
-			outlineColor = Color.ORANGE;
+			
 		}
 
 		g2d.setColor(outlineColor);
@@ -118,7 +133,10 @@ public class Warrior extends Actor
 		isGrabbing = false;
 		
 		turnCounter++;
-
+		if (battalionCount == 0)
+		{
+			isDead = true;
+		}
 		if(!isDead)
 		{
 			queen = getQueen();
@@ -194,8 +212,11 @@ public class Warrior extends Actor
 		
 		else
 		{
-			
-			if(isNearEnemy())
+			if(isNearEnemyWarrior())
+			{
+				fightWarrior(enemyWarrior);
+			}
+			else if(isNearEnemy())
 			{
 				fight(enemy);
 			}
@@ -311,6 +332,7 @@ public class Warrior extends Actor
 			double damageModifier = random.nextDouble() * DAMAGE;
 
 			enemy.takeDamage(DAMAGE + damageModifier);
+			setVelocity(0, 0);
 		}
 	}
 	
@@ -324,6 +346,7 @@ public class Warrior extends Actor
 			double damageModifier = random.nextDouble() * DAMAGE;
 
 			enemyWarrior.takeDamage(DAMAGE + damageModifier);
+			setVelocity(0, 0);
 		}
 	}
 	
@@ -386,7 +409,11 @@ public class Warrior extends Actor
 
 	public void move(double vX, double vY, double multiplier)
 	{
-		setVelocity(vX * multiplier, vY * multiplier);
+		
+		
+		
+			setVelocity(vX * multiplier, vY * multiplier);
+		
 	}
 
 	public void bounceOffEdges()
