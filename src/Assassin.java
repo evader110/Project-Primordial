@@ -5,12 +5,12 @@ import java.awt.Polygon;
 import java.util.Random;
 
 
-public class Warrior extends Actor
+public class Assassin extends Actor
 {	
-	private final int SPEED = 1;
+	private final int SPEED = 3;
 	private final double MAX_HEALTH = 300;
-	private final double DAMAGE = 5;
-	private final double AGGRO_RANGE = 600;
+	private final double DAMAGE = 10000;
+	private final double AGGRO_RANGE = 1200;
 	
 	private final double SPEED_REDUCTION = 0.80;
 
@@ -34,7 +34,7 @@ public class Warrior extends Actor
 
 	private Queen queen;
 
-	public Warrior(double x, double y, Faction f, int size)
+	public Assassin(double x, double y, Faction f)
 	{
 		xPosition = x;
 		yPosition = y;
@@ -44,10 +44,10 @@ public class Warrior extends Actor
 		width = 12;
 		height = 12;
 		
-		battalionCount = size;
+		
 		health = MAX_HEALTH * battalionCount;
 
-		faction.addWarrior(this);
+		faction.addAssassin(this);
 	}
 
 	public void draw(Graphics g)
@@ -55,26 +55,25 @@ public class Warrior extends Actor
 		Color outlineColor = faction.getColor();
 		
 		g.setColor(faction.getColor());
-		battalionCount = (int)health / (int)MAX_HEALTH;
-		
-		
+		battalionCount = (int)health / (int)MAX_HEALTH + 1;
 		battalion = Integer.toString(battalionCount);
-		
+	
 
 		if(isDead)
 		{
 			g.setColor(Color.black);
 		}
-		g.setColor(Color.black);
+		g.setColor(Color.white);
 		g.fillRect((int)xPosition - (width / 2), (int)yPosition - (height / 2), width, height);
 
 		if(isFighting || isGrabbing)
 		{
-						drawFood(g);
+			//outlineColor = Color.white;
+			drawFood(g);
 		}
 		else
 		{
-			
+			//outlineColor = Color.ORANGE;
 		}
 
 		g.setColor(outlineColor);
@@ -84,8 +83,8 @@ public class Warrior extends Actor
 		{
 			drawFood(g);
 		}
-		g.setColor(Color.BLACK);
-		g.drawString(battalion, (int)xPosition + 6, (int)yPosition);
+		
+		
 	}
 
 	public void drawFood(Graphics g)
@@ -103,10 +102,7 @@ public class Warrior extends Actor
 		isGrabbing = false;
 		
 		turnCounter++;
-		if (battalionCount == 0)
-		{
-			isDead = true;
-		}
+
 		if(!isDead)
 		{
 			queen = getQueen();
@@ -170,14 +166,7 @@ public class Warrior extends Actor
 			{
 				fightWarrior(enemyWarrior);
 			}
-			else if(isNearEnemy())
-			{
-				fight(enemy);
-			}
-			else if(isNearEnemyWarrior())
-			{
-				fightWarrior(enemyWarrior);
-			}
+			
 			else
 			{
 				randomMovement(1);
@@ -301,7 +290,9 @@ public class Warrior extends Actor
 
 			enemyWarrior.takeDamage(DAMAGE + damageModifier);
 			setVelocity(0, 0);
+			isDead = true;
 		}
+			
 	}
 	
 
@@ -416,7 +407,7 @@ public class Warrior extends Actor
 	public void destroy()
 	{
 		GamePanel.removeEntity(this);
-		faction.removeWarrior(this);
+		faction.removeAssassin(this);
 	}
 
 	public boolean isDead()

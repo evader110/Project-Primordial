@@ -29,6 +29,10 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 	private static boolean isPaused;
 	private static boolean greenFaction;
 	private static boolean toggle = true;
+	
+	private static Queen redQueen;
+	private static Queen blueQueen;
+	private static Queen greenQueen;
 
 	private static Random random = new Random();
 
@@ -229,6 +233,7 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 		drawRegions(g);
 		drawEntities(g);
 		drawCounter(g);	
+		Queen.drawResources(g);
 	}
 
 	public static ArrayList<Entity> getEntities()
@@ -286,6 +291,7 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 		g.setColor(Color.BLACK);
 		g.drawLine(5, 25, 70, 25);
 		
+		
 		for(int i = 0; i < factions.size(); i++)
 		{
 			Faction f = factions.get(i);
@@ -295,6 +301,7 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 			g.setColor(Color.BLACK);
 			g.drawRect(5, 25 * (i + 1), 25, 25);
 			g.drawString("" + f.getDroneCount(), 35, 25 * (i + 2) - 5);
+			
 			
 			g.drawLine(5, 25 * (i + 2), 70, 25 * (i + 2));
 		}
@@ -382,4 +389,10 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 	{
 		return panelHeight;
 	}
+	
+	public static ArrayList<Faction> getFactions()
+	{
+		return factions;
+	}
+
 }

@@ -13,6 +13,7 @@ public class Faction
 	private ArrayList<Drone> drones = new ArrayList<Drone>();
 	private ArrayList<Warrior> warriors = new ArrayList<Warrior>();
 	private ArrayList<Region> forbiddenRegions = new ArrayList<Region>();
+	private ArrayList<Assassin> assassins = new ArrayList<Assassin>();
 	
 	public Faction(String name, Color c)
 	{
@@ -35,6 +36,11 @@ public class Faction
 		warriors.add(w);
 	}
 	
+	public void addAssassin(Assassin a)
+	{
+		assassins.add(a);
+	}
+	
 	public void removeDrone(Drone d)
 	{
 		drones.remove(d);
@@ -42,7 +48,12 @@ public class Faction
 	
 	public void removeWarrior(Warrior w)
 	{
-		warriors.add(w);
+		warriors.remove(w);
+	}
+	
+	public void removeAssassin(Assassin a)
+	{
+		assassins.add(a);
 	}
 	
 	public void setForbidden(Region r)
@@ -78,6 +89,12 @@ public class Faction
 	{
 		return drones.size();
 	}
+	
+	public int getWarriorCount()
+	{
+		return warriors.size();
+	}
+	
 	
 	
 }
