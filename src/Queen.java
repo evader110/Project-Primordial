@@ -1,7 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
-<<<<<<< Updated upstream
 
 
 public class Queen extends Actor
@@ -10,13 +9,6 @@ public class Queen extends Actor
 	private int queenVisionRange = 750;
 	private static String foodString;
 	private static ArrayList<Faction> factions = GamePanel.getFactions();
-	
-=======
-import java.util.List;
-
-public class Queen extends Actor
-{
-	private int foodCount = 5;
 
 	private Food food;
 
@@ -25,7 +17,6 @@ public class Queen extends Actor
 	private Drone nearestDrone;
 
 	private boolean taskGiven;
->>>>>>> Stashed changes
 
 	public Queen(double xPos, double yPos, Faction f)
 	{
@@ -72,10 +63,7 @@ public class Queen extends Actor
 		g.setColor(Color.BLACK);
 		g.drawRect((int)xPosition - (width / 2), (int)yPosition - (height / 2), width, height);
 		g.setColor(faction.getColor());
-<<<<<<< Updated upstream
 		g.drawOval((int)this.xPosition - 375, (int)this.yPosition - 375, queenVisionRange, queenVisionRange);
-		
-		
 		
 	}
 	
@@ -99,12 +87,8 @@ public class Queen extends Actor
 			
 			g.drawLine(5, 25 * (i + 2), 70, 25 * (i + 2));
 		}
-		
-=======
-
-		visionRange.updateVision(this, g);
-		g.drawString("" + foodCount, (int)this.xPosition, (int)this.yPosition - 20);
->>>>>>> Stashed changes
+		//visionRange.updateVision(this, g);
+		//g.drawString("" + foodCount, (int)this.xPosition, (int)this.yPosition - 20);
 	}
 
 	@Override
@@ -113,15 +97,11 @@ public class Queen extends Actor
 		spawnWarriors();
 		spawnAssassins();
 		spawnDrones();
-<<<<<<< Updated upstream
 		control();
-		
-=======
 		if(GamePanel.getHiveMind())
 		{
 			control();
 		}
->>>>>>> Stashed changes
 	}
 
 	public void spawnDrones()
@@ -144,7 +124,6 @@ public class Queen extends Actor
 			}
 		}
 	}
-<<<<<<< Updated upstream
 	
 	public void spawnWarriors()
 	{
@@ -184,10 +163,6 @@ public class Queen extends Actor
 		
 		
 	}
-	
-=======
-
->>>>>>> Stashed changes
 	@Override
 	public boolean canCross(Region r)
 	{
@@ -200,15 +175,11 @@ public class Queen extends Actor
 	{
 		foodCount++;
 	}
-<<<<<<< Updated upstream
 	
 	public static String getFoodCount()
 	{
 		return Integer.toString(foodCount);
 	}
-	
-	
-=======
 	public boolean getTaskGiven()
 	{
 		return taskGiven;
@@ -253,6 +224,4 @@ public class Queen extends Actor
 		}
 		return (Drone)closestOne;
 	}
->>>>>>> Stashed changes
-	
 }

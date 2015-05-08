@@ -34,7 +34,7 @@ public abstract class Entity
 
 	protected BufferedImage sprite;
 	
-	protected SphereOfInfluence visionRange;
+	protected static SphereOfInfluence visionRange;
 	
 	public Entity()
 	{

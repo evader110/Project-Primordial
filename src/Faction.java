@@ -95,18 +95,13 @@ public class Faction
 		return drones.size();
 	}
 	
-<<<<<<< Updated upstream
 	public int getWarriorCount()
 	{
 		return warriors.size();
 	}
 	
-	
-	
-=======
 	public Queen getQueen()
 	{
 		return queen;
 	}
->>>>>>> Stashed changes
 }

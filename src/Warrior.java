@@ -8,22 +8,22 @@ import java.util.Random;
 
 public class Warrior extends Actor
 {	
-	private final int SPEED = 1;
+	private final int SPEED = 5;
 	private final double MAX_HEALTH = 300;
 	private final double DAMAGE = 5;
 	private final double AGGRO_RANGE = 600;
 	private final double TURN_SPEED = (2 * Math.PI) / 50;
-	
+
 	private final double SPEED_REDUCTION = 0.80;
 
 	private double angle = 0;
 	private double targetAngle = 0;
-	
+
 	private int turnCounter;
 	private int wanderingTimeLeft;
-	
+
 	private int battalionCount;
-	
+
 	private static String battalion;
 
 	private double health = MAX_HEALTH;
@@ -48,7 +48,7 @@ public class Warrior extends Actor
 
 		width = 14;
 		height = 14;
-		
+
 		battalionCount = size;
 		health = MAX_HEALTH * battalionCount;
 
@@ -57,50 +57,33 @@ public class Warrior extends Actor
 
 	public void draw(Graphics g)
 	{
-<<<<<<< HEAD
 		Graphics2D g2d = (Graphics2D)g;
-		
-		g2d.rotate(angle, xPosition, yPosition);
-		
-		Color outlineColor;
-=======
-		Color outlineColor = faction.getColor();
->>>>>>> origin/master
-		
+
+		//g2d.rotate(angle, xPosition, yPosition);
+
+		Color outlineColor = Color.BLACK;
+
 		g2d.setColor(faction.getColor());
 		battalionCount = (int)health / (int)MAX_HEALTH;
-		
-		
+
+
 		battalion = Integer.toString(battalionCount);
-<<<<<<< HEAD
-	
-		
+
+
 		int[] xVals = {(int)(xPosition - width / 2), (int)(xPosition + width / 2 + 4), (int)(xPosition - width / 2)};
 		int[] yVals = {(int)(yPosition + height / 2), (int)(yPosition), (int)(yPosition - height / 2)};
-		
-=======
-		
 
->>>>>>> origin/master
 		if(isDead)
 		{
 			g2d.setColor(Color.black);
 		}
-<<<<<<< HEAD
-		
 		g2d.fillPolygon(xVals, yVals, 3);
-=======
 		g.setColor(Color.black);
-		g.fillRect((int)xPosition - (width / 2), (int)yPosition - (height / 2), width, height);
->>>>>>> origin/master
+		//g.fillRect((int)xPosition - (width / 2), (int)yPosition - (height / 2), width, height);
 
 		if(isFighting || isGrabbing)
 		{
-						drawFood(g);
-		}
-		else
-		{
-			
+			drawFood(g);
 		}
 
 		g2d.setColor(outlineColor);
@@ -111,10 +94,10 @@ public class Warrior extends Actor
 			drawFood(g2d);
 		}
 		g2d.setColor(Color.BLACK);
-		
-		g2d.rotate(-angle, xPosition, yPosition);
-		
-		
+
+		//g2d.rotate(-angle, xPosition, yPosition);
+
+
 		g2d.drawString(battalion, (int)xPosition + 6, (int)yPosition);
 	}
 
@@ -131,7 +114,7 @@ public class Warrior extends Actor
 	{
 		isFighting = false;
 		isGrabbing = false;
-		
+
 		turnCounter++;
 		if (battalionCount == 0)
 		{
@@ -153,14 +136,14 @@ public class Warrior extends Actor
 				destroy();
 			}
 		}
-		
+
 		updateAngle();
 	}
-	
+
 	public void updateAngle()
 	{
 		targetAngle = Math.atan2(yVelocity, xVelocity);
-		
+
 		if(angle < targetAngle)
 		{
 			angle += TURN_SPEED;
@@ -206,10 +189,10 @@ public class Warrior extends Actor
 				randomMovement(SPEED_REDUCTION);
 			else
 				randomMovement(1);
-			
+
 			wanderingTimeLeft--;
 		}
-		
+
 		else
 		{
 			if(isNearEnemyWarrior())
@@ -251,13 +234,13 @@ public class Warrior extends Actor
 			return false;
 		return true;
 	}
-	
+
 	public boolean isNearEnemyWarrior()
 	{
 		boolean foundEnemy = false;
 		for(Entity e : GamePanel.getEntities())
 		{
-		 if(e instanceof Warrior)
+			if(e instanceof Warrior)
 			{
 				Warrior d = (Warrior) e;
 
@@ -278,7 +261,7 @@ public class Warrior extends Actor
 				}
 			}
 		}
-		 return foundEnemy;
+		return foundEnemy;
 	}
 
 	public boolean isNearEnemy()
@@ -307,12 +290,12 @@ public class Warrior extends Actor
 					}
 				}
 			}
-			
+
 		}
 		return foundEnemy;
 	}
 
-	
+
 
 	public void wander(int time)
 	{
@@ -335,7 +318,7 @@ public class Warrior extends Actor
 			setVelocity(0, 0);
 		}
 	}
-	
+
 	public void fightWarrior(Warrior enemyWarrior)
 	{
 		isFighting = true;
@@ -349,9 +332,9 @@ public class Warrior extends Actor
 			setVelocity(0, 0);
 		}
 	}
-	
 
-	
+
+
 
 	public void moveTowards(Entity target)
 	{
@@ -409,11 +392,7 @@ public class Warrior extends Actor
 
 	public void move(double vX, double vY, double multiplier)
 	{
-		
-		
-		
-			setVelocity(vX * multiplier, vY * multiplier);
-		
+		setVelocity(vX * multiplier, vY * multiplier);
 	}
 
 	public void bounceOffEdges()

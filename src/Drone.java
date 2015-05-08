@@ -8,13 +8,8 @@ import java.util.List;
 
 
 public class Drone extends Actor
-{	
-<<<<<<< Updated upstream
-	private final int SPEED = 1;
-=======
+{
 	private final int SPEED = 3;
-
->>>>>>> Stashed changes
 	private final double MAX_HEALTH = 160;
 	private final double DAMAGE = 5;
 	private final double AGGRO_RANGE = 250;
@@ -180,10 +175,6 @@ public class Drone extends Actor
 				{
 					goTowardsFood();
 				}
-				else if(isNearEnemy())
-				{
-					fight(enemy);
-				}
 				else
 				{
 					randomMovement(1);
@@ -193,19 +184,15 @@ public class Drone extends Actor
 		//When there is a Hive Mind
 		else
 		{
-<<<<<<< Updated upstream
 			if(isNearFood())
 			{
 				goTowardsFood();
 			}
-			
-=======
 			if(hasFood && queen != null)
 			{
 				bringFoodToQueen();
 				//target = null;
 			}
->>>>>>> Stashed changes
 			else
 			{
 				if(target != null && !entities.contains(target))
@@ -215,10 +202,6 @@ public class Drone extends Actor
 				else if(target instanceof Food)
 				{
 					goTowardsFood();
-				}
-				else if(target instanceof Drone)
-				{
-					fight((Drone) target);
 				}
 				else
 					moveWithinBounds(SphereOfInfluence.getRange(queen), queen);

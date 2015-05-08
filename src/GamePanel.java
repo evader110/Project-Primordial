@@ -24,22 +24,19 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 	private static final long serialVersionUID = 1L;
 
 	private Graphics g;
-
+	
 	private static int panelWidth;
 	private static int panelHeight;
 
 	private static boolean foodSpawn;
 	private static boolean isPaused;
 	private static boolean greenFaction;
-<<<<<<< Updated upstream
 	private static boolean toggle = true;
 	
 	private static Queen redQueen;
 	private static Queen blueQueen;
 	private static Queen greenQueen;
-=======
 	private static boolean hiveMind;
->>>>>>> Stashed changes
 
 	private static Random random = new Random();
 
@@ -75,7 +72,6 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 
 		g = getGraphics();
 		paint(g);
-		
 		//Maybe instead of messing around with panelWidth/Height, change the actual width and height of the panel lol
 		panelWidth = (int)AIPlayground.getAvailableSpace().getWidth();
 		panelHeight = (int)AIPlayground.getAvailableSpace().getHeight();
@@ -279,7 +275,7 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 		drawRegions(g);
 		drawEntities(g);
 		drawCounter(g);	
-		Queen.drawResources(g);
+		//Queen.drawResources(g);
 	}
 
 	public static ArrayList<Entity> getEntities()
@@ -447,21 +443,12 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 	{
 		return panelHeight;
 	}
-<<<<<<< Updated upstream
-	
-=======
 	public static boolean getHiveMind()
 	{
 		return hiveMind;
 	}
->>>>>>> Stashed changes
 	public static ArrayList<Faction> getFactions()
 	{
 		return factions;
 	}
-<<<<<<< Updated upstream
-
-=======
-	
->>>>>>> Stashed changes
 }
