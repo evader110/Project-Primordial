@@ -128,4 +128,8 @@ public class Region{ //A region on the map
 	{
 		this.color = color;
 	}
+	public String toString()
+	{
+		return "Region";
+	}
 }

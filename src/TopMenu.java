@@ -18,7 +18,6 @@ public class TopMenu extends JMenuBar
 	static JMenu createMenu, optionsMenu;
 	static JMenu factionMenu;
 
-	static ButtonGroup factionButtons = new ButtonGroup();
 
 	static JCheckBox hiveMindCheckBox;
 	static JCheckBox pauseCheckBox;
@@ -31,8 +30,6 @@ public class TopMenu extends JMenuBar
 	static JMenuItem droneButton;
 	static JMenuItem foodButton;
 	static JMenuItem resetButton;
-	
-	static boolean hiveMind;
 	
 	
 	public TopMenu()
@@ -123,8 +120,7 @@ public class TopMenu extends JMenuBar
 			public void actionPerformed(ActionEvent e)
 			{
 				// TODO Wire this
-				//GamePanel.toggleHiveMind();
-				hiveMind = true;
+				GamePanel.toggleHiveMind();
 				GamePanel.clearRegions();
 			}
 		});
@@ -171,9 +167,9 @@ public class TopMenu extends JMenuBar
 
 	public void initFactionMenu(){
 		factionMenu = new JMenu("Faction");
-
-		factionButtons.add(redButton);
-		factionButtons.add(blueButton);
+//
+//		factionButtons.add(redButton);
+//		factionButtons.add(blueButton);
 
 		redButton.setSelected(true);
 

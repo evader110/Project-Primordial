@@ -3,14 +3,17 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Polygon;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JPanel;
-import javax.swing.Timer;
+import javax.swing.KeyStroke;
 
 /*
  * This class is a modified JPanel that runs a game timer and draws the graphics
@@ -28,11 +31,15 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 	private static boolean foodSpawn;
 	private static boolean isPaused;
 	private static boolean greenFaction;
+<<<<<<< Updated upstream
 	private static boolean toggle = true;
 	
 	private static Queen redQueen;
 	private static Queen blueQueen;
 	private static Queen greenQueen;
+=======
+	private static boolean hiveMind;
+>>>>>>> Stashed changes
 
 	private static Random random = new Random();
 
@@ -47,6 +54,9 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 	private static ArrayList<Faction> factions = new ArrayList<Faction>();
 	
 	private static ArrayList<Region> regions = new ArrayList<Region>();
+	
+	static KeyStroke ctrlC = KeyStroke.getKeyStroke(KeyEvent.VK_C,
+			InputEvent.CTRL_MASK);
 	
 	public GamePanel(int x, int y)
 	{	
@@ -75,10 +85,15 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 	{	
 		resetWorld();
 
+		/*
 		timer = new Timer(10, this);
 		timer.setInitialDelay(0);
 
 		timer.start();
+		*/
+		
+		timer = new Timer();
+		timer.schedule(new MainTask(), 0, 10);
 	}
 
 	public static void resetWorld()
@@ -152,6 +167,37 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 		addRegion(reg);
 		addRegion(reg2);
 		*/
+	}
+	
+	class MainTask extends TimerTask 
+	{
+		public void run() 
+		{
+			GamePanel.this.requestFocus();
+
+			controller.update();
+			
+			updateActors();
+			checkRegions(); //Bounce actors out of places they shouldn't be
+
+			if(!isPaused)
+			{
+				if(foodSpawn)
+				{
+					spawnFood();
+				}
+
+				for(int i = 0; i < actors.size(); i++)
+				{
+					Actor actor = actors.get(i);
+					actor.act();
+				}
+			}
+			
+			//if u want to add polygons together you convert them into Areas
+
+			GamePanel.this.repaint(); //Calls paintComponent()
+		}
 	}
 
 	public void actionPerformed(ActionEvent e) //This method is run every time the timer fires
@@ -280,7 +326,8 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 	
 	public static void drawEntities(Graphics g)
 	{
-		for(Entity entity : entities)
+		ArrayList<Entity> entitiesToDraw = new ArrayList<Entity>(entities);
+		for(Entity entity : entitiesToDraw)
 		{
 			entity.draw(g);
 		}
@@ -316,7 +363,6 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 			}
 		}
 		
-		System.out.println("Didn't find the faction.");
 		return new Faction();
 	}
 	
@@ -344,6 +390,18 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 		}
 	}
 
+	public static void toggleHiveMind()
+	{
+		if(hiveMind)
+		{
+			hiveMind = false;
+		}
+		else
+		{
+			hiveMind = true;
+		}
+	}
+	
 	public static void toggleGreenFaction()
 	{
 		if(greenFaction)
@@ -389,10 +447,21 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 	{
 		return panelHeight;
 	}
+<<<<<<< Updated upstream
 	
+=======
+	public static boolean getHiveMind()
+	{
+		return hiveMind;
+	}
+>>>>>>> Stashed changes
 	public static ArrayList<Faction> getFactions()
 	{
 		return factions;
 	}
+<<<<<<< Updated upstream
 
+=======
+	
+>>>>>>> Stashed changes
 }

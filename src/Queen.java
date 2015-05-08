@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+<<<<<<< Updated upstream
 
 
 public class Queen extends Actor
@@ -10,6 +11,21 @@ public class Queen extends Actor
 	private static String foodString;
 	private static ArrayList<Faction> factions = GamePanel.getFactions();
 	
+=======
+import java.util.List;
+
+public class Queen extends Actor
+{
+	private int foodCount = 5;
+
+	private Food food;
+
+	private Drone enemy;
+
+	private Drone nearestDrone;
+
+	private boolean taskGiven;
+>>>>>>> Stashed changes
 
 	public Queen(double xPos, double yPos, Faction f)
 	{
@@ -20,18 +36,33 @@ public class Queen extends Actor
 
 		width = 30;
 		height = 30;
-		
-		spawnDrones();
+
+		visionRange = new SphereOfInfluence(SphereOfInfluence.getDefaultQueenRange(), this);
+
+		this.getFaction().addQueen(this);
 	}
 
 	public void control()
 	{
-		if(TopMenu.hiveMind)
+		ArrayList<Entity> entitiesSeen = new ArrayList<Entity>(visionRange.getContents(this));
+		for(Entity e : entitiesSeen)
 		{
-			
+//			if(taskGiven)
+//				nearestDrone = getNearestDrone();
+			if(e instanceof Food)
+			{
+				//nearestDrone.setTarget(e);
+				getNearestDroneFromLocation(e).setTarget(e);
+				taskGiven = true;
+			}
+			else if(e instanceof Drone && e.getFaction() != this.getFaction())
+			{
+				getNearestDroneFromLocation(e).setTarget(e);
+				taskGiven = true;
+			}
 		}
 	}
-	
+
 	public void draw(Graphics g)
 	{
 		g.setColor(faction.getColor());
@@ -41,6 +72,7 @@ public class Queen extends Actor
 		g.setColor(Color.BLACK);
 		g.drawRect((int)xPosition - (width / 2), (int)yPosition - (height / 2), width, height);
 		g.setColor(faction.getColor());
+<<<<<<< Updated upstream
 		g.drawOval((int)this.xPosition - 375, (int)this.yPosition - 375, queenVisionRange, queenVisionRange);
 		
 		
@@ -68,6 +100,11 @@ public class Queen extends Actor
 			g.drawLine(5, 25 * (i + 2), 70, 25 * (i + 2));
 		}
 		
+=======
+
+		visionRange.updateVision(this, g);
+		g.drawString("" + foodCount, (int)this.xPosition, (int)this.yPosition - 20);
+>>>>>>> Stashed changes
 	}
 
 	@Override
@@ -76,8 +113,15 @@ public class Queen extends Actor
 		spawnWarriors();
 		spawnAssassins();
 		spawnDrones();
+<<<<<<< Updated upstream
 		control();
 		
+=======
+		if(GamePanel.getHiveMind())
+		{
+			control();
+		}
+>>>>>>> Stashed changes
 	}
 
 	public void spawnDrones()
@@ -100,6 +144,7 @@ public class Queen extends Actor
 			}
 		}
 	}
+<<<<<<< Updated upstream
 	
 	public void spawnWarriors()
 	{
@@ -140,6 +185,9 @@ public class Queen extends Actor
 		
 	}
 	
+=======
+
+>>>>>>> Stashed changes
 	@Override
 	public boolean canCross(Region r)
 	{
@@ -147,11 +195,12 @@ public class Queen extends Actor
 			return false;
 		return true;
 	}
-	
+
 	public void giveFood()
 	{
 		foodCount++;
 	}
+<<<<<<< Updated upstream
 	
 	public static String getFoodCount()
 	{
@@ -159,5 +208,51 @@ public class Queen extends Actor
 	}
 	
 	
+=======
+	public boolean getTaskGiven()
+	{
+		return taskGiven;
+	}
+	public void setTaskGiven(boolean b)
+	{
+		taskGiven = b;
+	}
+	public String toString()
+	{
+		return "Queen";
+	}
+	public Drone getNearestDrone()
+	{
+		Entity closestOne = null;
+		ArrayList<Entity> entities = new ArrayList<Entity>(GamePanel.getEntities());
+		for(Entity e : entities)
+		{
+				if(closestOne == null)
+				{
+					if(e instanceof Drone && e.getFaction().equals(this.getFaction()))
+						closestOne = e;
+				}
+				if(e instanceof Drone && e.getFaction().equals(this.getFaction()) && this.getDistanceFrom(e) < this.getDistanceFrom(closestOne))
+					closestOne = e;
+		}
+		return (Drone)closestOne;
+	}
+	public Drone getNearestDroneFromLocation(Entity source)
+	{
+		Entity closestOne = null;
+		ArrayList<Entity> entities = new ArrayList<Entity>(GamePanel.getEntities());
+		for(Entity e : entities)
+		{
+				if(closestOne == null)
+				{
+					if(e instanceof Drone && e.getFaction().equals(this.getFaction()))
+						closestOne = e;
+				}
+				if(e instanceof Drone && e.getFaction().equals(this.getFaction()) && source.getDistanceFrom(e) < source.getDistanceFrom(closestOne))
+					closestOne = e;
+		}
+		return (Drone)closestOne;
+	}
+>>>>>>> Stashed changes
 	
 }
