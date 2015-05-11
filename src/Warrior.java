@@ -64,11 +64,10 @@ public class Warrior extends Actor
 		Color outlineColor = Color.BLACK;
 
 		g2d.setColor(faction.getColor());
+		
 		battalionCount = (int)health / (int)MAX_HEALTH;
 
-
 		battalion = Integer.toString(battalionCount);
-
 
 		int[] xVals = {(int)(xPosition - width / 2), (int)(xPosition + width / 2 + 4), (int)(xPosition - width / 2)};
 		int[] yVals = {(int)(yPosition + height / 2), (int)(yPosition), (int)(yPosition - height / 2)};
@@ -77,36 +76,29 @@ public class Warrior extends Actor
 		{
 			g2d.setColor(Color.black);
 		}
+		
 		g2d.fillPolygon(xVals, yVals, 3);
-		g.setColor(Color.black);
-		//g.fillRect((int)xPosition - (width / 2), (int)yPosition - (height / 2), width, height);
-
-		if(isFighting || isGrabbing)
-		{
-			drawFood(g);
-		}
-
+		
 		g2d.setColor(outlineColor);
+		
 		g2d.drawPolygon(xVals, yVals, 3);
 
 		if(hasFood)
 		{
 			drawFood(g2d);
 		}
-		g2d.setColor(Color.BLACK);
-
+		
 		//g2d.rotate(-angle, xPosition, yPosition);
-
 
 		g2d.drawString(battalion, (int)xPosition + 6, (int)yPosition);
 	}
 
-	public void drawFood(Graphics g)
+	public void drawFood(Graphics2D g2d)
 	{
-		g.setColor(Color.WHITE);
-		g.fillRect((int)xPosition - 2, (int)yPosition - 2, 5, 5);
-		g.setColor(Color.BLACK);
-		g.drawRect((int)xPosition - 2, (int)yPosition - 2, 5, 5);
+		g2d.setColor(Color.WHITE);
+		g2d.fillRect((int)xPosition - 2, (int)yPosition - 2, 5, 5);
+		g2d.setColor(Color.BLACK);
+		g2d.drawRect((int)xPosition - 2, (int)yPosition - 2, 5, 5);
 	}
 
 	@Override
