@@ -1,6 +1,7 @@
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Rectangle;
 
 import javax.swing.JFrame;
@@ -14,15 +15,18 @@ public class AIPlayground
 	private static BorderLayout mainLayout = new BorderLayout();
 	
 	private static JFrame mainWindow = new JFrame("Template");
-
+	
 	private static TopMenu topMenu;
 	private static GamePanel gamePanel;
 	
 	private static int windowWidth = 1280;
 	private static int windowHeight = 720;
 	
-	public static void main(String[] args) 
-	{	
+	final static Dimension windowSize = new Dimension(1280, 720);
+	public static Rectangle windowRect = new Rectangle(0, 0, windowWidth, windowHeight);
+	
+	public static void main(String[] args)
+	{
 		initializeWindow();
 		
 		startGame();

@@ -28,13 +28,18 @@ public abstract class Entity
 	protected double xVelocity;
 	protected double yVelocity;
 	
-	protected Faction faction = new Faction("White", Color.WHITE);
+	protected static Faction defaultFaction = new Faction("Default", Color.WHITE);
+	protected Faction faction = defaultFaction;
 	
 	protected Rectangle bounds;
 
 	protected BufferedImage sprite;
 	
+<<<<<<< Updated upstream
 	protected static SphereOfInfluence visionRange;
+=======
+	//A boolean method to say if it's inside region r: isInside(Region r) or something
+>>>>>>> Stashed changes
 	
 	public Entity()
 	{

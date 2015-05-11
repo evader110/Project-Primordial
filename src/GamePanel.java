@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.event.ActionEvent;
@@ -92,6 +93,35 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 		timer.schedule(new MainTask(), 0, 10);
 	}
 
+	public void actionPerformed(ActionEvent e) //This method is run every time the timer fires
+	{   
+		this.requestFocus();
+
+		controller.update();
+		
+		//updateMap(); does nothing lol
+		updateActors();
+		updateRegions(); //Bounce actors out of places they shouldn't be
+
+		if(!isPaused)
+		{
+			if(foodSpawn)
+			{
+				spawnFood();
+			}
+
+			for(int i = 0; i < actors.size(); i++)
+			{
+				Actor actor = actors.get(i);
+				actor.act();
+			}
+		}
+		
+		//if u want to add polygons together you convert them into Areas
+
+		this.repaint(); //Calls paintComponent()
+	}
+	
 	public static void resetWorld()
 	{
 		clearAll();
@@ -104,7 +134,6 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 		initializeMap();
 	}
 	
-	//At some point prolly make a subclass of Entity called Actor, to separate shit that does/doesn't act
 	public static void initializeActors()
 	{
 		factions = new ArrayList<Faction>();
@@ -141,24 +170,22 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 	
 	public static void initializeMap()
 	{
+		
 		Faction redFaction = findFaction("Red", factions);
 		Faction blueFaction = findFaction("Blue", factions);
 		Faction greenFaction = findFaction("Green", factions);
 		
+<<<<<<< Updated upstream
 		/*
 		Region reg = new Region();
+=======
+		Region reg = new Region(findFaction("Blue", factions));
+>>>>>>> Stashed changes
 		reg.setBounds(new Rectangle(0, 50, 200, 50));
 		
 		
-		Region reg2 = new Region();
+		Region reg2 = new Region(findFaction("Blue", factions));
 		reg2.setBounds(new Rectangle(150, 50, 50, 500));
-		
-		
-		reg.exclude(findFaction("Red", factions));
-		reg.exclude(findFaction("Green", factions));
-		
-		reg2.exclude(findFaction("Red", factions));
-		reg2.exclude(findFaction("Green", factions));
 		
 		addRegion(reg);
 		addRegion(reg2);
@@ -196,34 +223,6 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 		}
 	}
 
-	public void actionPerformed(ActionEvent e) //This method is run every time the timer fires
-	{   
-		this.requestFocus();
-
-		controller.update();
-		
-		updateActors();
-		checkRegions(); //Bounce actors out of places they shouldn't be
-
-		if(!isPaused)
-		{
-			if(foodSpawn)
-			{
-				spawnFood();
-			}
-
-			for(int i = 0; i < actors.size(); i++)
-			{
-				Actor actor = actors.get(i);
-				actor.act();
-			}
-		}
-		
-		//if u want to add polygons together you convert them into Areas
-
-		this.repaint(); //Calls paintComponent()
-	}
-
 	public void spawnFood()
 	{
 		int bufferZone = 25;
@@ -239,7 +238,7 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 			
 			for(Region r : regions)
 			{
-				if(r.getPolygon().contains(potentialFoodPoint))
+				if(r.getBorder().contains(potentialFoodPoint))
 					return;
 			}	
 			addEntity(new Food(xPos, yPos));
@@ -253,10 +252,12 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 	
 	
 
-	public void checkRegions() //Make sure no actors are going through regions they shouldn't be
-	{
+	public void updateRegions() //Make sure no actors are going through regions they shouldn't be
+	{	
 		for(Region r : regions)
 		{
+			r.updateKnowledge(factions);
+			
 			for(Actor a: actors)
 			{
 				Polygon bounds = Region.rectangleToPolygon(a.getBounds());
@@ -305,6 +306,11 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 			}
 		}
 	}
+	
+	public static void updateMap()
+	{
+		
+	}
 
 	public static void addRegion(Region r) //Adds regions to the map
 	{
@@ -313,10 +319,12 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 	
 	public static void drawRegions(Graphics g)
 	{
+		Graphics2D g2d = (Graphics2D) g;
+		
 		for(Region r : regions)
 		{
-			g.setColor(r.getColor());
-			g.fillPolygon(r.getPolygon());
+			g2d.setColor(r.getColor());
+			g2d.fill(r.getBorder());
 		}
 	}
 	
