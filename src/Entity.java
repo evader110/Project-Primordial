@@ -35,11 +35,8 @@ public abstract class Entity
 
 	protected BufferedImage sprite;
 	
-<<<<<<< Updated upstream
 	protected static SphereOfInfluence visionRange;
-=======
 	//A boolean method to say if it's inside region r: isInside(Region r) or something
->>>>>>> Stashed changes
 	
 	public Entity()
 	{

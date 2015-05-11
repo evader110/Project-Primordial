@@ -125,7 +125,6 @@ public class Queen extends Actor
 		}
 	}
 	
-<<<<<<< Updated upstream
 	public void spawnWarriors()
 	{
 		if(foodCount > 3 && faction.getWarriorCount() < 20)
@@ -164,8 +163,7 @@ public class Queen extends Actor
 		
 		
 	}
-	@Override
-=======
+	
 	/*@Override
 >>>>>>> Stashed changes
 	public boolean canCross(Region r)
@@ -179,7 +177,6 @@ public class Queen extends Actor
 =======
 	}*/
 	
->>>>>>> Stashed changes
 	public void giveFood()
 	{
 		foodCount++;

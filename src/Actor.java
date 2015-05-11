@@ -1,3 +1,5 @@
+import java.awt.Point;
+
 
 public abstract class Actor extends Entity //They're like entities, but they act
 { //If we add unit types we should probably make them interfaces
@@ -23,5 +25,14 @@ public abstract class Actor extends Entity //They're like entities, but they act
 			return true;
 		//if this can cross any region(not yet implemented), return true
 		return false;
+	}
+	
+	public boolean canCross(Point p)
+	{
+	}
+	
+	public boolean canCross(int x, int y)
+	{
+		return canCross(new Point(x,y));
 	}
 }

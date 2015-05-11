@@ -175,12 +175,9 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 		Faction blueFaction = findFaction("Blue", factions);
 		Faction greenFaction = findFaction("Green", factions);
 		
-<<<<<<< Updated upstream
 		/*
 		Region reg = new Region();
-=======
 		Region reg = new Region(findFaction("Blue", factions));
->>>>>>> Stashed changes
 		reg.setBounds(new Rectangle(0, 50, 200, 50));
 		
 		

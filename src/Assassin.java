@@ -174,6 +174,7 @@ public class Assassin extends Actor
 		}
 	}
 
+	/*
 	public boolean isInForbiddenRegion()
 	{
 		for(Region r : faction.getForbiddenRegions())
@@ -185,15 +186,16 @@ public class Assassin extends Actor
 			}
 		}
 		return false;
-	}
+	}*/
 
+	/*
 	@Override
 	public boolean canCross(Region r)
 	{
 		if(faction.getForbiddenRegions().contains(r))
 			return false;
 		return true;
-	}
+	}*/
 	
 	public boolean isNearEnemyWarrior()
 	{

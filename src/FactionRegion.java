@@ -100,7 +100,7 @@ public class FactionRegion extends Region
 	
 	public void setUncrossable()
 	{
-		super.setUncrossable();
+		super.setUncrossable(true);
 		this.forbidFactions(knownFactions);
 	}
 	
@@ -117,8 +117,6 @@ public class FactionRegion extends Region
 	public void forbidFaction(Faction f)
 	{
 		forbiddenFactions.add(f);
-
-		f.forbidFromEntering(this);
 	}
 
 	public void forbidFactions(ArrayList<Faction> factions)
@@ -128,11 +126,6 @@ public class FactionRegion extends Region
 
 		this.forbiddenFactions.remove(factions);
 		this.forbiddenFactions.addAll(factions);
-
-		for(Faction f : factions)
-		{
-			f.forbidFromEntering(this);
-		}
 	}
 		
 }

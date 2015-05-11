@@ -11,13 +11,11 @@ public class Faction
 	private Queen queen;
 	
 	private ArrayList<Drone> drones = new ArrayList<Drone>();
-<<<<<<< Updated upstream
+
 	private ArrayList<Warrior> warriors = new ArrayList<Warrior>();
 	private ArrayList<Region> forbiddenRegions = new ArrayList<Region>();
 	private ArrayList<Assassin> assassins = new ArrayList<Assassin>();
-=======
 	//private ArrayList<Region> forbiddenRegions = new ArrayList<Region>();
->>>>>>> Stashed changes
 	
 	public Faction(String name, Color c)
 	{
@@ -55,7 +53,6 @@ public class Faction
 		drones.remove(d);
 	}
 	
-<<<<<<< Updated upstream
 	public void removeWarrior(Warrior w)
 	{
 		warriors.remove(w);
@@ -66,7 +63,6 @@ public class Faction
 		assassins.add(a);
 	}
 	
-=======
 	public String getName()
 	{
 		return name;
@@ -82,8 +78,6 @@ public class Faction
 		return drones.size();
 	}
 	
-	/*
->>>>>>> Stashed changes
 	public void setForbidden(Region r)
 	{
 		forbiddenRegions.add(r);
@@ -101,22 +95,6 @@ public class Faction
 	public ArrayList<Region> getForbiddenRegions()
 	{
 		return forbiddenRegions;
-<<<<<<< Updated upstream
-	}
-	
-	public String getName()
-	{
-		return name;
-	}
-	
-	public Color getColor()
-	{
-		return color;
-	}
-	
-	public int getDroneCount()
-	{
-		return drones.size();
 	}
 	
 	public int getWarriorCount()
@@ -128,7 +106,4 @@ public class Faction
 	{
 		return queen;
 	}
-=======
-	}*/
->>>>>>> Stashed changes
 }
