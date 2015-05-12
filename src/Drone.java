@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Polygon;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.List;
 
@@ -143,12 +144,22 @@ public class Drone extends Actor
 		return queen;
 	}
 
-
+	//This needs a complete rework whenever I feel like it
 	public void decideBehavior()
 	{
 		ArrayList<Entity> entities = new ArrayList<Entity>(GamePanel.getEntities());
 		//When there is not a Hive Mind
 		if(!GamePanel.getHiveMind())
+		//Notes sklalaklkl;dfslkafskljdfsakl;adsfkljdfsalkadfskldfsafddklfafjkadfsdfsajkl
+		//Well if you want to see if it's in a region it can't go to you need to know what regions there are, and then check what's up
+		//But if it worries about itself then you need to handle this in GamePanel
+		/*if(isInForbiddenRegion())
+		{
+			isFighting = false;
+			isGrabbing = false;
+			wander(random.nextInt(100));
+		}
+		else*/ if(wanderingTimeLeft > 0)
 		{
 			if(isInForbiddenRegion())
 			{
@@ -180,6 +191,13 @@ public class Drone extends Actor
 					randomMovement(1);
 				}
 			}
+				randomMovement(1);
+
+			wanderingTimeLeft--;
+		}
+		else if(hasFood && queen != null)
+		{
+			bringFoodToQueen();
 		}
 		//When there is a Hive Mind
 		else
@@ -209,19 +227,23 @@ public class Drone extends Actor
 		}
 	}
 
-	public boolean isInForbiddenRegion()
+	public boolean intersects(Region r)
 	{
-		for(Region r : faction.getForbiddenRegions())
+		return intersects( new ArrayList<Region>(Arrays.asList(r)) );
+	}
+
+	public boolean intersects(ArrayList<Region> regions)
+	{
+		for(Region r : regions)
 		{
 			Polygon bounds = Region.rectangleToPolygon(this.getBounds());
 			if(r.intersects(bounds))
-			{
 				return true;
-			}
 		}
 		return false;
 	}
 
+	/*
 	@Override
 	public boolean canCross(Region r)
 	{
@@ -229,6 +251,8 @@ public class Drone extends Actor
 			return false;
 		return true;
 	}
+=======
+	}*/
 
 	public void bringFoodToQueen()
 	{

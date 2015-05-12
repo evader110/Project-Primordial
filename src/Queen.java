@@ -163,14 +163,20 @@ public class Queen extends Actor
 		
 		
 	}
-	@Override
+	
+	/*@Override
+>>>>>>> Stashed changes
 	public boolean canCross(Region r)
 	{
 		if(faction.getForbiddenRegions().contains(r))
 			return false;
 		return true;
+<<<<<<< Updated upstream
 	}
 
+=======
+	}*/
+	
 	public void giveFood()
 	{
 		foodCount++;
