@@ -1,10 +1,14 @@
 import java.awt.Point;
+import java.util.ArrayList;
 
 
 public abstract class Actor extends Entity //They're like entities, but they act
 { //If we add unit types we should probably make them interfaces
 	//Actually you would basically have to if you wanted to have units that were multiple types
 	//Or just make the unit type classes static
+
+	private static ArrayList<Region> knownRegions; //Prolly gonna get rid of this and change drone logic/GamePanel
+
 	public Actor()
 	{
 		super();
@@ -26,13 +30,26 @@ public abstract class Actor extends Entity //They're like entities, but they act
 		//if this can cross any region(not yet implemented), return true
 		return false;
 	}
-	
+
 	public boolean canCross(Point p)
 	{
+		for(Region r : knownRegions)
+		{
+			if(r.getBounds().contains(p));
+			return false;
+		}
+		return true;
 	}
-	
+
 	public boolean canCross(int x, int y)
 	{
 		return canCross(new Point(x,y));
+	}
+
+	public boolean isInForbiddenRegion()
+	{
+		for(Region r : knownRegions)
+			return this.getBounds().intersects(r.getBounds());
+		return false;
 	}
 }

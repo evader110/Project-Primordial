@@ -18,8 +18,8 @@ public class Region{ //extends Area //A region on the map
 
 	private Color color;
 
-	private ArrayList<Actor> knownActors; //Actors this Region knows exist, might remove this out I don't see why not
-	private ArrayList<Faction> knownFactions; //Factions this region knows about
+	private static ArrayList<Actor> knownActors; //Actors this Region knows exist, might remove this out I don't see why not
+	private static ArrayList<Faction> knownFactions; //Factions this region knows about
 
 	private ArrayList<Actor> forbiddenActors = new ArrayList<Actor>(); //Actors that can't enter this region
 	private ArrayList<Faction> forbiddenFactions = new ArrayList<Faction>();
@@ -312,11 +312,11 @@ public class Region{ //extends Area //A region on the map
 	{
 		this.color = color;
 	}
-<<<<<<< Updated upstream
+
 	public String toString()
 	{
 		return "Region";
-=======
+	}
 
 	public void setUncrossable(boolean uncrossable) //No matter what, nothing can cross a region set to uncrossable
 	{
@@ -405,6 +405,5 @@ public class Region{ //extends Area //A region on the map
 	public static Area rectangleToArea(Rectangle rect)
 	{
 		return new Area(rect);
->>>>>>> Stashed changes
 	}
 }

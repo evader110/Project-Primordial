@@ -329,8 +329,6 @@ public class Drone extends Actor
 		wanderingTimeLeft = time;
 	}
 
-	
-
 	public void goTowardsFood()
 	{
 		isGrabbing = true;
