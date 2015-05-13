@@ -40,11 +40,6 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 	private static Queen greenQueen;
 	private static boolean hiveMind;
 
-	static int worldWidth = 2000;
-	static int worldHeight = 2000;
-
-	static Rectangle camera;
-	
 	private static Random random = new Random();
 
 	private static Timer timer;
@@ -66,9 +61,6 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 	{	
 		panelWidth = x;
 		panelHeight = y;
-		
-		camera = new Rectangle(panelWidth / 2 - panelWidth / 2, panelHeight / 2 - panelHeight / 2,
-								panelWidth, panelHeight);
 
 		setPreferredSize(new Dimension(panelWidth, panelHeight));
 		setFocusable(true);
@@ -163,14 +155,14 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 			factions.add(greenFaction);
 			
 			redQueen = new Queen(20, 600, redFaction);
-			blueQueen = new Queen(worldWidth - 20, 600, blueFaction);
-			greenQueen = new Queen(worldWidth / 2, 20, greenFaction);
+			blueQueen = new Queen(panelWidth - 20, 600, blueFaction);
+			greenQueen = new Queen(panelWidth / 2, 20, greenFaction);
 			addEntity(greenQueen);
 		}
 		else
 		{
 			redQueen = new Queen(20, 300, redFaction);
-			blueQueen = new Queen(worldWidth - 20, 300, blueFaction);
+			blueQueen = new Queen(panelWidth - 20, 300, blueFaction);
 		}
 
 		addEntity(redQueen);
@@ -234,8 +226,8 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 		if (toggle){
 		if(random.nextBoolean())
 		{
-			int xPos = random.nextInt(worldWidth - 2 * bufferZone) + bufferZone;
-			int yPos = random.nextInt(worldHeight - 2 * bufferZone) + bufferZone;
+			int xPos = random.nextInt(panelWidth - 2 * bufferZone) + bufferZone;
+			int yPos = random.nextInt(panelHeight - 2 * bufferZone) + bufferZone;
 
 			Point potentialFoodPoint = new Point(xPos, yPos);
 			
@@ -251,17 +243,12 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 		}
 	}
 	
-<<<<<<< HEAD
-	public void checkRegions() //Make sure no actors are going through regions they shouldn't be
-	{
-=======
 	
 	
 	
 
 	public void updateRegions() //Make sure no actors are going through regions they shouldn't be
 	{	
->>>>>>> origin/master
 		for(Region r : regions)
 		{
 			r.updateKnowledge(factions);
@@ -338,20 +325,11 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 	
 	public static void drawEntities(Graphics g)
 	{
-		Graphics2D g2d = (Graphics2D)g;
-		
-		g2d.translate(-camera.x, -camera.y);
-		
 		ArrayList<Entity> entitiesToDraw = new ArrayList<Entity>(entities);
 		for(Entity entity : entitiesToDraw)
 		{
-			if(camera.contains(entity.getBounds()))
-			{
-				entity.draw(g);
-			}
+			entity.draw(g);
 		}
-		
-		g2d.translate(camera.x, camera.y);
 	}
 	
 	public static void drawCounter(Graphics g)
@@ -437,33 +415,6 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 		}
 	}
 	
-	public static void panCamera(double dx, double dy)
-	{
-		camera.setLocation((int)(camera.x + dx), (int)(camera.y + dy));
-		
-		correctCamera();
-	}
-	
-	public static void correctCamera()
-	{
-		if(camera.x < 0)
-		{
-			camera.setLocation(0, camera.y);
-		}
-		if(camera.x + camera.width > worldWidth)
-		{
-			camera.setLocation(worldWidth - camera.width, camera.y);
-		}
-		if(camera.y < 0)
-		{
-			camera.setLocation(camera.x, 0);
-		}
-		if(camera.y + camera.height > worldHeight)
-		{
-			camera.setLocation(camera.x, worldHeight - camera.height);
-		}
-	}
-	
 	public static void clearAll()
 	{
 		clearRegions();
@@ -495,7 +446,6 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 	{
 		return panelHeight;
 	}
-	
 	public static boolean getHiveMind()
 	{
 		return hiveMind;
