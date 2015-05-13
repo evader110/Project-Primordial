@@ -18,6 +18,11 @@ public class Controller implements KeyListener, MouseListener
 	final int A = 65;
 	final int S = 83;
 	final int D = 68;
+	
+	final int LEFT = 37;	
+	final int UP = 38;
+	final int RIGHT = 39;
+	final int DOWN = 40;
 
 	final int ENTER = 10;
 
@@ -62,6 +67,22 @@ public class Controller implements KeyListener, MouseListener
 		if(keys[ENTER])
 		{
 			GamePanel.resetWorld();
+		}
+		if(keys[LEFT])
+		{
+			GamePanel.panCamera(-1, 0);
+		}
+		if(keys[RIGHT])
+		{
+			GamePanel.panCamera(1, 0);
+		}
+		if(keys[UP])
+		{
+			GamePanel.panCamera(0, -1);
+		}
+		if(keys[DOWN])
+		{
+			GamePanel.panCamera(0, 1);
 		}
 	}
 	

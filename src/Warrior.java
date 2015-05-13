@@ -389,17 +389,17 @@ public class Warrior extends Actor
 
 	public void bounceOffEdges()
 	{
-		int panelWidth = GamePanel.getPanelWidth();
-		int panelHeight = GamePanel.getPanelHeight();
+		int worldWidth = GamePanel.worldWidth;
+		int worldHeight = GamePanel.worldHeight;
 
 		if(xPosition - width/2 <= 0)
 		{
 			xPosition = width/2;
 			xVelocity *= -1;
 		}
-		else if(xPosition + width/2 >= panelWidth)
+		else if(xPosition + width/2 >= worldWidth)
 		{
-			xPosition = panelWidth - width/2;
+			xPosition = worldWidth - width/2;
 			xVelocity *= -1;
 		}
 		if(yPosition - height/2 <= 0)
@@ -407,9 +407,9 @@ public class Warrior extends Actor
 			yPosition = height/2;
 			yVelocity *= -1;
 		}
-		else if(yPosition + height/2 >= panelHeight)
+		else if(yPosition + height/2 >= worldHeight)
 		{
-			yPosition = panelHeight - height/2;
+			yPosition = worldHeight - height/2;
 			yVelocity *= -1;
 		}	
 	}
