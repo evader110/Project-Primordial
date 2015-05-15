@@ -12,7 +12,6 @@ public class Drone extends Actor
 {
 	private final int SPEED = 3;
 	private final double MAX_HEALTH = 160;
-	private final double DAMAGE = 5;
 	private final double AGGRO_RANGE = 250;
 	private final double FOOD_RANGE = 250;
 	private final double SPEED_REDUCTION = 0.80;
@@ -22,7 +21,6 @@ public class Drone extends Actor
 
 	private double health = MAX_HEALTH;
 
-	private boolean takingOrders;
 	private boolean hasFood;
 	private boolean isFighting;
 	private boolean isGrabbing;
@@ -101,16 +99,7 @@ public class Drone extends Actor
 
 		if(!isDead)
 		{
-
-			if(!GamePanel.getHiveMind())
-			{
-				decideBehavior();
-			}
-			else
-			{
-				takingOrders = true;
-				decideBehavior();
-			}
+			decideBehavior();
 			bounceOffEdges();
 			updatePosition();
 		}
@@ -150,9 +139,6 @@ public class Drone extends Actor
 		ArrayList<Entity> entities = new ArrayList<Entity>(GamePanel.getEntities());
 		//When there is not a Hive Mind
 		if(!GamePanel.getHiveMind())
-		//Notes sklalaklkl;dfslkafskljdfsakl;adsfkljdfsalkadfskldfsafddklfafjkadfsdfsajkl
-		//Well if you want to see if it's in a region it can't go to you need to know what regions there are, and then check what's up
-		//But if it worries about itself then you need to handle this in GamePanel
 		/*if(isInForbiddenRegion())
 		{
 			isFighting = false;
@@ -161,7 +147,7 @@ public class Drone extends Actor
 		}
 		else*/ if(wanderingTimeLeft > 0)
 		{
-			if(isInForbiddenRegion())
+			if(false)//isInForbiddenRegion())
 			{
 				isFighting = false;
 				isGrabbing = false;

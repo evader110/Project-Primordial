@@ -144,7 +144,7 @@ public class Assassin extends Actor
 
 	public void decideBehavior()
 	{
-		if(isInForbiddenRegion())
+		if(false)//isInForbiddenRegion())
 		{
 			isFighting = false;
 			isGrabbing = false;

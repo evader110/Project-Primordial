@@ -29,6 +29,7 @@ public abstract class Actor extends Entity //They're like entities, but they act
 	
 	public boolean canCross(Point p)
 	{
+		return false;
 	}
 	
 	public boolean canCross(int x, int y)

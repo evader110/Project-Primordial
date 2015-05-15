@@ -198,7 +198,7 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 			controller.update();
 			
 			updateActors();
-			checkRegions(); //Bounce actors out of places they shouldn't be
+			//checkRegions(); //Bounce actors out of places they shouldn't be
 
 			if(!isPaused)
 			{

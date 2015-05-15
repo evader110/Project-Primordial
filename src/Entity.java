@@ -14,6 +14,8 @@ import java.awt.image.BufferedImage;
 
 public abstract class Entity
 {
+	private final int SPEED = 3;
+	
 	protected double xPosition;
 	protected double yPosition;
 	
@@ -37,11 +39,6 @@ public abstract class Entity
 	
 	protected static SphereOfInfluence visionRange;
 	//A boolean method to say if it's inside region r: isInside(Region r) or something
-	
-	public Entity()
-	{
-		
-	}
 	
 	public void draw(Graphics g)
 	{
@@ -156,4 +153,37 @@ public abstract class Entity
 	{
 		return SphereOfInfluence.getRange(this);
 	}
+	public void move(double vX, double vY, double multiplier)
+	{
+		setVelocity(vX * multiplier, vY * multiplier);
+	}
+	public void moveTowards(Entity target)
+	{
+		double angleToTarget = calcAngleToEntity(target);
+
+		move(SPEED * Math.cos(angleToTarget), -SPEED * Math.sin(angleToTarget), 1);
+
+		//xVelocity = SPEED * Math.cos(angleToTarget);
+		//yVelocity = -SPEED * Math.sin(angleToTarget);
+	}
+	public void moveToPoint(int x, int y)
+	{
+		double angleToTarget = calcAngleToPoint(x, y);
+
+		move(SPEED * Math.cos(angleToTarget), -SPEED * Math.sin(angleToTarget), 1);
+	}
+	public double calcAngleToPoint(int x, int y)
+	{
+		double xDifference = x - this.getXPosition();
+		double yDifference = y - this.getYPosition();
+		
+		return Math.atan2(yDifference, xDifference);
+	}
+	public double calcAngleToEntity(Entity target)
+	{
+		double xDifference = getXDistanceFrom(target);
+		double yDifference = getYDistanceFrom(target);
+		return Math.atan2(yDifference, xDifference);
+	}
+	
 }

@@ -312,11 +312,10 @@ public class Region{ //extends Area //A region on the map
 	{
 		this.color = color;
 	}
-<<<<<<< Updated upstream
 	public String toString()
 	{
 		return "Region";
-=======
+	}
 
 	public void setUncrossable(boolean uncrossable) //No matter what, nothing can cross a region set to uncrossable
 	{
@@ -405,6 +404,5 @@ public class Region{ //extends Area //A region on the map
 	public static Area rectangleToArea(Rectangle rect)
 	{
 		return new Area(rect);
->>>>>>> Stashed changes
 	}
 }

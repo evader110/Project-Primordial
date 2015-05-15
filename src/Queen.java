@@ -111,16 +111,19 @@ public class Queen extends Actor
 			Drone newDrone = new Drone(xPosition, yPosition, faction);
 
 			GamePanel.addEntity(newDrone);
-
+			
 			foodCount -= 1;
 		}
 		else
 		{
 			if(faction.getDroneCount() < 4)
 			{
-				Drone newDrone = new Drone(xPosition, yPosition, faction);
-
-				GamePanel.addEntity(newDrone);
+				GamePanel.addEntity(new Drone(xPosition, yPosition, faction));
+				
+			}
+			if(faction.getAssassinCount() < 1)
+			{
+				//GamePanel.addEntity(new Assassin(xPosition, yPosition, faction));
 			}
 		}
 	}

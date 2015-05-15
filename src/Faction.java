@@ -60,7 +60,7 @@ public class Faction
 	
 	public void removeAssassin(Assassin a)
 	{
-		assassins.add(a);
+		assassins.remove(a);
 	}
 	
 	public String getName()
@@ -100,6 +100,11 @@ public class Faction
 	public int getWarriorCount()
 	{
 		return warriors.size();
+	}
+	
+	public int getAssassinCount()
+	{
+		return assassins.size();
 	}
 	
 	public Queen getQueen()
