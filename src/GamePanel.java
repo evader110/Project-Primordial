@@ -1,8 +1,10 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
@@ -19,7 +21,7 @@ import javax.swing.KeyStroke;
  * This class is a modified JPanel that runs a game timer and draws the graphics
  */
 
-public class GamePanel extends JPanel implements ActionListener, Runnable
+public class GamePanel extends JPanel implements Runnable
 {
 	private static final long serialVersionUID = 1L;
 
@@ -38,6 +40,11 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 	private static Queen greenQueen;
 	private static boolean hiveMind;
 
+	static int worldWidth = 2000;
+	static int worldHeight = 1000;
+
+	static Rectangle camera;
+	
 	private static Random random = new Random();
 
 	private static Timer timer;
@@ -59,6 +66,9 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 	{	
 		panelWidth = x;
 		panelHeight = y;
+		
+		camera = new Rectangle(panelWidth / 2 - panelWidth / 2, panelHeight / 2 - panelHeight / 2,
+								panelWidth, panelHeight);
 
 		setPreferredSize(new Dimension(panelWidth, panelHeight));
 		setFocusable(true);
@@ -124,15 +134,15 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 			Faction greenFaction = new Faction("Green", Color.GREEN);
 			factions.add(greenFaction);
 			
-			redQueen = new Queen(20, 600, redFaction);
-			blueQueen = new Queen(panelWidth - 20, 600, blueFaction);
-			greenQueen = new Queen(panelWidth / 2, 20, greenFaction);
+			redQueen = new Queen(200, worldHeight / 2, redFaction);
+			blueQueen = new Queen(worldWidth - 200, worldHeight / 2, blueFaction);
+			greenQueen = new Queen(worldWidth / 2, 200, greenFaction);
 			addEntity(greenQueen);
 		}
 		else
 		{
-			redQueen = new Queen(20, 300, redFaction);
-			blueQueen = new Queen(panelWidth - 20, 300, blueFaction);
+			redQueen = new Queen(200, worldHeight / 2, redFaction);
+			blueQueen = new Queen(worldWidth - 200, worldHeight / 2, blueFaction);
 		}
 
 		addEntity(redQueen);
@@ -167,7 +177,7 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 	
 	class MainTask extends TimerTask 
 	{
-		public void run() 
+		public void run()
 		{
 			GamePanel.this.requestFocus();
 
@@ -196,6 +206,7 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 		}
 	}
 
+	/*
 	public void actionPerformed(ActionEvent e) //This method is run every time the timer fires
 	{   
 		this.requestFocus();
@@ -223,6 +234,7 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 
 		this.repaint(); //Calls paintComponent()
 	}
+	*/
 
 	public void spawnFood()
 	{
@@ -232,8 +244,8 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 		if (toggle){
 		if(random.nextBoolean())
 		{
-			int xPos = random.nextInt(panelWidth - 2 * bufferZone) + bufferZone;
-			int yPos = random.nextInt(panelHeight - 2 * bufferZone) + bufferZone;
+			int xPos = random.nextInt(worldWidth - 2 * bufferZone) + bufferZone;
+			int yPos = random.nextInt(worldHeight - 2 * bufferZone) + bufferZone;
 
 			Point potentialFoodPoint = new Point(xPos, yPos);
 			
@@ -249,10 +261,6 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 		}
 	}
 	
-	
-	
-	
-
 	public void checkRegions() //Make sure no actors are going through regions they shouldn't be
 	{
 		for(Region r : regions)
@@ -272,6 +280,7 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 	{
 		super.paintComponent(g);
 
+		drawGrid(g);
 		drawRegions(g);
 		drawEntities(g);
 		drawCounter(g);	
@@ -311,6 +320,30 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 		regions.add(r);
 	}
 	
+	public static void drawGrid(Graphics g)
+	{
+		int colWidth = 50;
+		int rowWidth = 50;
+	
+		Graphics2D g2d = (Graphics2D)g;
+		
+		g2d.translate(-camera.x, -camera.y);
+		
+		g2d.setColor(Color.GRAY);
+		
+		for(int c = 0; c < worldWidth; c += colWidth)
+		{
+			g2d.drawLine(c, 0, c, worldHeight);
+		}
+		
+		for(int r = 0; r < worldHeight; r += rowWidth)
+		{
+			g2d.drawLine(0, r, worldWidth, r);
+		}
+		
+		g2d.translate(camera.x, camera.y);
+	}
+	
 	public static void drawRegions(Graphics g)
 	{
 		for(Region r : regions)
@@ -322,11 +355,20 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 	
 	public static void drawEntities(Graphics g)
 	{
+		Graphics2D g2d = (Graphics2D)g;
+		
+		g2d.translate(-camera.x, -camera.y);
+		
 		ArrayList<Entity> entitiesToDraw = new ArrayList<Entity>(entities);
 		for(Entity entity : entitiesToDraw)
 		{
-			entity.draw(g);
+			if(camera.contains(entity.getBounds()))
+			{
+				entity.draw(g);
+			}
 		}
+		
+		g2d.translate(camera.x, camera.y);
 	}
 	
 	public static void drawCounter(Graphics g)
@@ -412,6 +454,33 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 		}
 	}
 	
+	public static void panCamera(double dx, double dy)
+	{
+		camera.setLocation((int)(camera.x + dx), (int)(camera.y + dy));
+		
+		correctCamera();
+	}
+	
+	public static void correctCamera()
+	{
+		if(camera.x < 0)
+		{
+			camera.setLocation(0, camera.y);
+		}
+		if(camera.x + camera.width > worldWidth)
+		{
+			camera.setLocation(worldWidth - camera.width, camera.y);
+		}
+		if(camera.y < 0)
+		{
+			camera.setLocation(camera.x, 0);
+		}
+		if(camera.y + camera.height > worldHeight)
+		{
+			camera.setLocation(camera.x, worldHeight - camera.height);
+		}
+	}
+	
 	public static void clearAll()
 	{
 		clearRegions();
@@ -443,6 +512,7 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 	{
 		return panelHeight;
 	}
+	
 	public static boolean getHiveMind()
 	{
 		return hiveMind;
