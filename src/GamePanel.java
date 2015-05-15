@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
@@ -175,8 +176,6 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 		Faction blueFaction = findFaction("Blue", factions);
 		Faction greenFaction = findFaction("Green", factions);
 		
-		/*
-		Region reg = new Region();
 		Region reg = new Region(findFaction("Blue", factions));
 		reg.setBounds(new Rectangle(0, 50, 200, 50));
 		
@@ -186,7 +185,6 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 		
 		addRegion(reg);
 		addRegion(reg2);
-		*/
 	}
 	
 	class MainTask extends TimerTask 
@@ -198,7 +196,11 @@ public class GamePanel extends JPanel implements ActionListener, Runnable
 			controller.update();
 			
 			updateActors();
+<<<<<<< HEAD
 			//checkRegions(); //Bounce actors out of places they shouldn't be
+=======
+			updateRegions(); //Bounce actors out of places they shouldn't be
+>>>>>>> origin/master
 
 			if(!isPaused)
 			{
