@@ -307,15 +307,9 @@ public class Region{ //extends Area //A region on the map
 	}
 
 	public void setColor(Color color)
-
-
 	{
 		this.color = color;
 	}
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/master
 	public String toString()
 	{
 		return "Region";

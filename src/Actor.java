@@ -33,16 +33,12 @@ public abstract class Actor extends Entity //They're like entities, but they act
 
 	public boolean canCross(Point p)
 	{
-<<<<<<< HEAD
-		return false;
-=======
 		for(Region r : knownRegions)
 		{
-			if(r.getBounds().contains(p));
-			return false;
+			if(r.getBounds().contains(p))
+				return false;
 		}
 		return true;
->>>>>>> origin/master
 	}
 
 	public boolean canCross(int x, int y)
